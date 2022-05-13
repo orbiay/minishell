@@ -6,12 +6,19 @@
 /*   By: orbiay <orbiay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 14:30:11 by orbiay            #+#    #+#             */
-/*   Updated: 2022/04/17 17:15:41 by orbiay           ###   ########.fr       */
+/*   Updated: 2022/05/13 12:33:34 by orbiay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
+int ft_strlen(char *str)
+{
+	int i = 0;
+	while (str[i])
+		i++;
+	return(i);
+}
 int ft_strcmp(const char *s1, const char *s2) 
 {
    while (*s1 != '\0' && *s2 != '\0'  && *s1 == *s2) {
@@ -181,13 +188,3 @@ char	**ft_split(char *s, char c)
 	return (str);
 }
 
-
-size_t	ft_strlen(const char *str)
-{
-	size_t	i;
-
-	i = 0;
-	while (str[i] != '\0')
-		i++;
-	return (i);
-}

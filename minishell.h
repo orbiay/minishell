@@ -6,7 +6,7 @@
 /*   By: orbiay <orbiay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 14:30:29 by orbiay            #+#    #+#             */
-/*   Updated: 2022/04/17 18:21:30 by orbiay           ###   ########.fr       */
+/*   Updated: 2022/05/13 12:32:28 by orbiay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct args
 
 t_list	*lstnew(char *data);
 t_list	*ft_lstlast(t_list *lst);
-size_t	ft_strlen(const char *str);
+int	ft_strlen(char *str);
 char	**ft_split(char *s, char c);
 char	*ft_strjoin(char *s1, char *s2);
 int ft_strcmp(const char *s1, const char *s2);

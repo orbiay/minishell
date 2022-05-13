@@ -6,7 +6,7 @@
 /*   By: orbiay <orbiay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:38:03 by orbiay            #+#    #+#             */
-/*   Updated: 2022/04/17 18:50:28 by orbiay           ###   ########.fr       */
+/*   Updated: 2022/05/13 17:25:14 by orbiay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,116 @@ void error(char **sp_input)
 		i++;
 	}
 }
+
+int count_space_2(char *str)
+{
+	int i = 0;
+	int counter = 0;
+	while (str[i])
+	{
+		if ((str[i] == '<' || str[i] == '>') && (str[i + 1] != '<' && str[i + 1] != '>'))
+			counter++;
+		i++;
+	}
+	return(counter);
+}
+char *join_space(char *str)
+{
+	int i = 0;
+	int j = 0;
+	int counter = 0;
+	char *save;
+	save = malloc (ft_strlen(str) + count_space_2(str) + 1);
+	//printf("%s\n",str);
+	while (str[i])
+	{
+		while ((str[i] == '<' || str[i] == '>') && str[i])
+		{
+			save[i + j] = str[i];
+			counter++;
+			i++;
+		}
+		if (counter != 0)
+		{
+			save[i + j] = ' ';
+			j++;
+			counter = 0;
+		}
+		save[i + j] = str[i];
+		i++;
+	}
+	//printf("%s\n",save);
+	return(save);
+}
+int count_space(char *str)
+{
+	int i = 0;
+	int counter = 0;
+	while (str[i])
+	{
+		if ((str[i] != '<' && str[i] != '>') && (str[i + 1] == '<' || str[i + 1] == '>'))
+			counter++;
+		i++;
+	}
+	return(counter);
+}
+char *join_space_ops(char *str)
+{
+	int i = 0;
+	int j = 0;
+	int counter = 0;
+	char *save;
+
+	save = malloc (ft_strlen(str) + count_space(str) + 1);
+	//printf("%s\n",str);
+	while (str[i])
+	{
+		if ((str[i] != '<' && str[i] != '>') && (str[i + 1] == '<' || str[i + 1] == '>'))
+		{
+			save[j++] = str[i++];
+			save[j++] = ' ';
+			while ((str[i] == '<' || str[i] == '>') && str[i])
+				save[j++] = str[i++];
+		}
+		save[j++] = str[i++];
+	}
+	save[j] = '\0';
+	//printf("%s\n",save);
+	return(save);
+}
+int count_pipes(char *str)
+{
+	int i = 0;
+	int count = 0;
+	while (str[i])
+	{
+		if (str[i] == '|')
+			count++;
+		i++;
+	}
+	return(count);
+}
+char *join_pipe_space(char *str)
+{
+	int i = 0;
+	int j = 0;
+	char *save;
+	save = malloc (ft_strlen(str) + (count_pipes(str) * 2)+ 1);
+	
+	while (str[i])
+	{
+		if(str[i] != '|' && str[i+1] == '|')
+		{
+			save[j++] = str[i++];
+			save[j++] = ' ';
+			save[j++] = str[i++];
+			save[j++] = ' ';
+		}
+		save[j++] = str[i++];
+	}
+	printf("%s\n",save);
+	return(save);
+}
 void read_add(char **av)
 {
 	char *input;
@@ -134,6 +244,9 @@ void read_add(char **av)
 	while (input)
 	{
 		add_history(input);
+		input = join_space(input);
+		input = join_space_ops(input);
+		input = join_pipe_space(input); 
 		sp_input = ft_split(input,' ');
 		argumets = create_list(sp_input);
 		error(sp_input);

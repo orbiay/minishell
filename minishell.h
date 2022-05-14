@@ -6,17 +6,20 @@
 /*   By: orbiay <orbiay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 14:30:29 by orbiay            #+#    #+#             */
-/*   Updated: 2022/05/13 12:32:28 by orbiay           ###   ########.fr       */
+/*   Updated: 2022/05/14 14:08:35 by orbiay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+#define SIGN 10
 # define INPUT 0
 # define OUTPUT 1
+# define OPTION 6
 # define HEREDOC 3
 #define CMD 4
 # define APPEND 5
+#define ARG 7
 #include<unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,10 +32,7 @@ typedef struct cmds
 	int			type;
 }t_list;
 
-typedef struct args
-{
-	char		*data;
-}t_args;
+
 
 t_list	*lstnew(char *data);
 t_list	*ft_lstlast(t_list *lst);

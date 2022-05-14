@@ -6,7 +6,7 @@
 /*   By: orbiay <orbiay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:38:03 by orbiay            #+#    #+#             */
-/*   Updated: 2022/05/13 17:25:14 by orbiay           ###   ########.fr       */
+/*   Updated: 2022/05/14 14:19:14 by orbiay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ void affiche(t_list *arguments)
 {
 	while (arguments)
 	{
-		printf("%d\n",arguments->type);
+		if (arguments->type !=10 )
+			printf("%s type  %d\n",arguments->data,arguments->type);
 		arguments = arguments->next;
 	}
 }
@@ -50,49 +51,59 @@ void ft_free(t_list *arguments)
 
 void type_arg(t_list *arg)
 {
+	int i = 0;
 	while (arg)
 	{
 		if (ft_strcmp(arg->data,"<") == 0)
 		{
-			arg->type = 10;
+			arg->type = SIGN;
 			arg = arg->next;
 			arg->type = INPUT;
-			arg = arg->next;
+			//arg = arg->next;
 		}
 		else if(ft_strcmp(arg->data,"|") == 0)
 		{
-			arg->type = 10;
+			arg->type = SIGN;
 			arg = arg->next;
 			arg->type = CMD;
-			arg = arg->next;
+			//arg = arg->next;
 		}
 		else if(ft_strcmp(arg->data,">") == 0)
 		{
-			arg->type = 10;
+			arg->type = SIGN;
 			arg = arg->next;
 			arg->type = OUTPUT;
-			arg = arg->next;
+			//arg = arg->next;
 		}
 		else if(ft_strcmp(arg->data,"<<") == 0)
 		{
-			arg->type = 10;
+			arg->type = SIGN;
 			arg = arg->next;
 			arg->type = HEREDOC;
-			arg = arg->next;
+			//arg = arg->next;
 		}
 		else if(ft_strcmp(arg->data,">>") == 0)
 		{
-			arg->type = 10;
+			arg->type = SIGN;
 			arg = arg->next;
 			arg->type = APPEND;
-			arg = arg->next;
+			//arg = arg->next;
+		}
+		else if(arg->data[0] == '-')
+		{
+			arg->type = OPTION;
+			//arg = arg->next; 
+		}
+		else if (i > 0)
+		{
+			arg->type = SIGN;
+			arg->type = ARG;
+			//arg = arg->next;
 		}
 		else
-		{
-			arg->type = 10;
-			arg->type = CMD;
-			arg = arg->next;
-		}
+			 arg->type = CMD;
+		arg = arg->next;
+		i++;
 	}
 }
 void error(char **sp_input)
@@ -100,26 +111,25 @@ void error(char **sp_input)
 	int i = 0;
 	while(sp_input[i])
 	{
-		//printf("##\n");
-		if (ft_strcmp(sp_input[i],">" ) == 0 && ft_strcmp(sp_input[i+ 1],"") == 0)
+		if (ft_strcmp(sp_input[i],">" ) == 0 && !sp_input[i+ 1])
 		{
 			printf("Minishell$ :syntax error near unexpected token `newline");
-			exit(0);
+			return;
 		}
-		else if (ft_strcmp(sp_input[i],">>") == 0 && ft_strcmp(sp_input[i+ 1],"") == 0)
+		else if (ft_strcmp(sp_input[i],">>") == 0 && !sp_input[i+ 1])
 		{
 			printf("Minishell$ :syntax error near unexpected token `newline");
-			exit(0);
+			return;
 		}
-		else if (ft_strcmp(sp_input[i],"<" ) == 0&& ft_strcmp(sp_input[i+ 1],"") == 0)
+		else if (ft_strcmp(sp_input[i],"<" ) == 0&& !sp_input[i+ 1])
 		{
 			printf("Minishell$ :syntax error near unexpected token `newline");
-			exit(0);
+			return;
 		}
-		else if (ft_strcmp(sp_input[i],"<<") == 0 && ft_strcmp(sp_input[i+ 1],"") == 0)
+		else if (ft_strcmp(sp_input[i],"<<") == 0 && !sp_input[i+ 1])
 		{
 			printf("Minishell$ :syntax error near unexpected token `newline");
-			exit(0);
+			return;//exit(0);
 		}
 		i++;
 	}
@@ -162,6 +172,7 @@ char *join_space(char *str)
 		save[i + j] = str[i];
 		i++;
 	}
+	save[i + j] = '\0';
 	//printf("%s\n",save);
 	return(save);
 }
@@ -234,6 +245,8 @@ char *join_pipe_space(char *str)
 	printf("%s\n",save);
 	return(save);
 }
+
+
 void read_add(char **av)
 {
 	char *input;

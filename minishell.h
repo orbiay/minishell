@@ -6,7 +6,7 @@
 /*   By: orbiay <orbiay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 14:30:29 by orbiay            #+#    #+#             */
-/*   Updated: 2022/05/14 14:08:35 by orbiay           ###   ########.fr       */
+/*   Updated: 2022/05/15 17:04:06 by orbiay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 #define CMD 4
 # define APPEND 5
 #define ARG 7
+#define PIPE 8
+#define D_QUOTE 9
+#define S_QUOTE 11
 #include<unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,6 +32,7 @@ typedef struct cmds
 {
 	char		*data;
 	struct cmds	*next;
+	struct cmds *prev;
 	int			type;
 }t_list;
 

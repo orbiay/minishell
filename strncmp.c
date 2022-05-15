@@ -6,7 +6,7 @@
 /*   By: orbiay <orbiay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 14:30:11 by orbiay            #+#    #+#             */
-/*   Updated: 2022/05/13 12:33:34 by orbiay           ###   ########.fr       */
+/*   Updated: 2022/05/15 16:44:28 by orbiay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,42 @@ static char	*convert(char const *s, int j)
 	str[i] = '\0';
 	return (str);
 }
-
+char **return_space(char **str)
+{
+	int i = 0;
+	int j = 0;
+	while (str[i])
+	{
+		j = 0;
+		while (str[i][j])
+		{
+			if (str[i][j] == -115)
+				str[i][j] = ' ';
+			j++;
+		}
+		i++;
+	}
+	return(str);
+}
+char *check_spaces(char *str)
+{
+	int i = 0;
+	while (str[i])
+	{
+		if (str[i] == '"' || str[i] == 39)
+		{
+			i++;
+			while ((str[i] != '"' || str[i] != 39) && str[i])
+			{
+				if (str[i] == ' ')
+					str[i] = -115;
+				i++;
+			}
+		}
+		i++;
+	}
+	return(str);
+}
 char	**ft_split(char *s, char c)
 {
 	int		i;
@@ -168,13 +203,9 @@ char	**ft_split(char *s, char c)
 	i = 0;
 	k = 0;
 	str = malloc((counter_word(s, c) + 1) * sizeof(char *));
+	s = check_spaces(s);
 	if (!str)
 		return (0);
-	//if (check_space(s))
-	//{
-	//	str = split_cmd(s, str);
-	//	return (str);
-	//}
 	while (s[i])
 	{
 		while (s[i] == c && s[i])
@@ -185,6 +216,8 @@ char	**ft_split(char *s, char c)
 			i++;
 	}
 	str[k] = 0;
+	int v = 0;
+	str = return_space(str);
 	return (str);
 }
 

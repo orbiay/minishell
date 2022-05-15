@@ -6,7 +6,7 @@
 /*   By: orbiay <orbiay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:38:03 by orbiay            #+#    #+#             */
-/*   Updated: 2022/05/14 14:19:14 by orbiay           ###   ########.fr       */
+/*   Updated: 2022/05/15 17:00:56 by orbiay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,28 @@ void affiche(t_list *arguments)
 {
 	while (arguments)
 	{
-		if (arguments->type !=10 )
-			printf("%s type  %d\n",arguments->data,arguments->type);
+		if (arguments->type != 10)
+		{
+			if (arguments->type == INPUT)
+				printf("[INPUT] %s\n",arguments->data);
+			else if (arguments->type == OUTPUT)
+				printf("[OUTPUT] %s\n",arguments->data);
+			else if (arguments->type == HEREDOC)
+				printf("[HERDOC] %s\n",arguments->data);
+			else if (arguments->type == CMD)
+				printf("[CMD] %s\n",arguments->data);
+			else if (arguments->type == APPEND)
+				printf("[APPEND] %s\n",arguments->data);
+			else if (arguments->type == OPTION)
+				printf("[OPTION] %s\n",arguments->data);
+			else if (arguments->type == ARG)
+				printf("[ARG] %s\n",arguments->data);
+			else if (arguments->type == D_QUOTE)
+				printf("[D_QUOTE] %s\n",arguments->data);
+			else if (arguments->type == S_QUOTE)
+				printf("[S_QUOTE] %s\n",arguments->data);
+				
+		}
 		arguments = arguments->next;
 	}
 }
@@ -52,6 +72,8 @@ void ft_free(t_list *arguments)
 void type_arg(t_list *arg)
 {
 	int i = 0;
+	t_list *head;
+	head = arg;
 	while (arg)
 	{
 		if (ft_strcmp(arg->data,"<") == 0)
@@ -59,80 +81,112 @@ void type_arg(t_list *arg)
 			arg->type = SIGN;
 			arg = arg->next;
 			arg->type = INPUT;
-			//arg = arg->next;
 		}
 		else if(ft_strcmp(arg->data,"|") == 0)
 		{
-			arg->type = SIGN;
+			arg->type = PIPE;
 			arg = arg->next;
 			arg->type = CMD;
-			//arg = arg->next;
 		}
 		else if(ft_strcmp(arg->data,">") == 0)
 		{
 			arg->type = SIGN;
 			arg = arg->next;
 			arg->type = OUTPUT;
-			//arg = arg->next;
 		}
 		else if(ft_strcmp(arg->data,"<<") == 0)
 		{
 			arg->type = SIGN;
 			arg = arg->next;
 			arg->type = HEREDOC;
-			//arg = arg->next;
 		}
 		else if(ft_strcmp(arg->data,">>") == 0)
 		{
 			arg->type = SIGN;
 			arg = arg->next;
 			arg->type = APPEND;
-			//arg = arg->next;
 		}
 		else if(arg->data[0] == '-')
 		{
 			arg->type = OPTION;
-			//arg = arg->next; 
+		}
+		else if(arg->data[0] == 34)
+		{
+			arg->type = D_QUOTE;
+		}
+		else if(arg->data[0] == 39)
+		{
+			arg->type = S_QUOTE;
 		}
 		else if (i > 0)
 		{
 			arg->type = SIGN;
 			arg->type = ARG;
-			//arg = arg->next;
 		}
 		else
 			 arg->type = CMD;
 		arg = arg->next;
 		i++;
 	}
+
 }
-void error(char **sp_input)
+int error(char **sp_input)
 {
 	int i = 0;
+	int counter = 0;
 	while(sp_input[i])
 	{
 		if (ft_strcmp(sp_input[i],">" ) == 0 && !sp_input[i+ 1])
 		{
-			printf("Minishell$ :syntax error near unexpected token `newline");
-			return;
+			printf("Minishell :syntax error near unexpected token `newline'\n");
+			counter++;
+			return (counter);
 		}
-		else if (ft_strcmp(sp_input[i],">>") == 0 && !sp_input[i+ 1])
+		else if (!sp_input[i - 1] && ft_strcmp(sp_input[i],">>") == 0 && !sp_input[i+ 1])
 		{
-			printf("Minishell$ :syntax error near unexpected token `newline");
-			return;
+			printf("Minishell :syntax error near unexpected token `newline'\n");
+			counter++;
+			return(counter);
 		}
 		else if (ft_strcmp(sp_input[i],"<" ) == 0&& !sp_input[i+ 1])
 		{
-			printf("Minishell$ :syntax error near unexpected token `newline");
-			return;
+			printf("Minishell :syntax error near unexpected token `newline'\n");
+			counter++;
+			return(counter);
 		}
 		else if (ft_strcmp(sp_input[i],"<<") == 0 && !sp_input[i+ 1])
 		{
-			printf("Minishell$ :syntax error near unexpected token `newline");
-			return;//exit(0);
+			printf("Minishell :syntax error near unexpected token `newline'\n");
+			counter++;
+			return(counter);
+		}
+		else if (ft_strcmp(sp_input[i],"<<") == 0 && ft_strcmp(sp_input[i + 1],">") == 0)
+		{
+			printf("Minishell :syntax error near unexpected token `>'\n");
+			counter++;
+			return(counter);
+		}
+		else if (ft_strcmp(sp_input[i],"<") == 0 && ft_strcmp(sp_input[i + 1],">>") == 0)
+		{
+			printf("Minishell :syntax error near unexpected token `>'\n");
+			counter++;
+			return(counter);
+		}
+		else if (ft_strcmp(sp_input[i],"<<") == 0 && ft_strcmp(sp_input[i + 1],">") == 0)
+		{
+			printf("Minishell$ :syntax error near unexpected token `>'\n");
+			counter++;
+			return(counter);
+		}
+		else if (ft_strcmp(sp_input[i],"<>") == 0)
+		{
+			printf("Minishell$ :syntax error near unexpected token `newline'\n");
+			counter++;
+			return(counter);
 		}
 		i++;
 	}
+	return(counter);
 }
 
 int count_space_2(char *str)
@@ -154,7 +208,6 @@ char *join_space(char *str)
 	int counter = 0;
 	char *save;
 	save = malloc (ft_strlen(str) + count_space_2(str) + 1);
-	//printf("%s\n",str);
 	while (str[i])
 	{
 		while ((str[i] == '<' || str[i] == '>') && str[i])
@@ -173,7 +226,6 @@ char *join_space(char *str)
 		i++;
 	}
 	save[i + j] = '\0';
-	//printf("%s\n",save);
 	return(save);
 }
 int count_space(char *str)
@@ -196,7 +248,6 @@ char *join_space_ops(char *str)
 	char *save;
 
 	save = malloc (ft_strlen(str) + count_space(str) + 1);
-	//printf("%s\n",str);
 	while (str[i])
 	{
 		if ((str[i] != '<' && str[i] != '>') && (str[i + 1] == '<' || str[i + 1] == '>'))
@@ -209,7 +260,6 @@ char *join_space_ops(char *str)
 		save[j++] = str[i++];
 	}
 	save[j] = '\0';
-	//printf("%s\n",save);
 	return(save);
 }
 int count_pipes(char *str)
@@ -242,11 +292,36 @@ char *join_pipe_space(char *str)
 		}
 		save[j++] = str[i++];
 	}
-	printf("%s\n",save);
 	return(save);
 }
 
+int multiple_red(char **sp_input)
+{
+	int i = 0;
+	int j = 0;
+	while (sp_input[i])
+	{
+		j = 0;
+		if (sp_input[i][0] == '<' || sp_input[i][0] == '>')
+		{
+			while ((sp_input[i][j] == '<' || sp_input[i][j] == '>') && sp_input[i][j])
+				j++;
+		}
+		if (j == 3)
+		{
 
+			printf("Minishell: syntax error near unexpected token `>'\n");
+			return(0);
+		}
+		if (j > 3)
+		{
+			printf("Minishell: syntax error near unexpected token `>>'\n");
+			return(0);
+		}
+		i++;
+	}
+	return(1);
+}
 void read_add(char **av)
 {
 	char *input;
@@ -262,9 +337,11 @@ void read_add(char **av)
 		input = join_pipe_space(input); 
 		sp_input = ft_split(input,' ');
 		argumets = create_list(sp_input);
-		error(sp_input);
-		type_arg(argumets);
-		affiche(argumets);
+		if (error(sp_input) == 0 && multiple_red(sp_input))
+		{
+			type_arg(argumets);
+			affiche(argumets);
+		}
 		input = readline("Minishell$ ");
 	}
 }

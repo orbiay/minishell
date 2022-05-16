@@ -6,7 +6,7 @@
 /*   By: orbiay <orbiay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 14:30:29 by orbiay            #+#    #+#             */
-/*   Updated: 2022/05/16 15:04:34 by orbiay           ###   ########.fr       */
+/*   Updated: 2022/05/16 15:08:26 by orbiay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,14 @@ typedef struct cmds
 	int			type;
 }t_list;
 
-int g_tab;
-
+int error(char **sp_input);
+int multiple_red(char **sp_input);
 t_list	*lstnew(char *data);
+char *join_space(char *str);
+void check_dollar(t_list *arg);
+void type_arg(t_list *arg);
+char *join_space_ops(char *str);
+char *join_pipe_space(char *str);
 t_list	*ft_lstlast(t_list *lst);
 int	ft_strlen(char *str);
 char	**ft_split(char *s, char c);

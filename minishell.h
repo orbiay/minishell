@@ -6,7 +6,7 @@
 /*   By: orbiay <orbiay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 14:30:29 by orbiay            #+#    #+#             */
-/*   Updated: 2022/05/15 17:04:06 by orbiay           ###   ########.fr       */
+/*   Updated: 2022/05/16 12:33:40 by orbiay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 #define PIPE 8
 #define D_QUOTE 9
 #define S_QUOTE 11
+#define DOLLAR_SIGN 12
+#define D_QUOTE_DOLLAR 13
+#define S_QUOTE_DOLLAR 14
 #include<unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -36,7 +39,7 @@ typedef struct cmds
 	int			type;
 }t_list;
 
-
+int g_tab;
 
 t_list	*lstnew(char *data);
 t_list	*ft_lstlast(t_list *lst);

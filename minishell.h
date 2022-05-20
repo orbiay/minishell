@@ -6,7 +6,7 @@
 /*   By: orbiay <orbiay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 14:30:29 by orbiay            #+#    #+#             */
-/*   Updated: 2022/05/16 15:08:26 by orbiay           ###   ########.fr       */
+/*   Updated: 2022/05/19 14:59:56 by orbiay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 typedef struct cmds
 {
 	char		*data;
+	int dollar;
 	struct cmds	*next;
 	struct cmds *prev;
 	int			type;

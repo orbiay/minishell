@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell2.c                                       :+:      :+:    :+:   */
+/*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: orbiay <orbiay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:38:03 by orbiay            #+#    #+#             */
-/*   Updated: 2022/05/16 14:52:48 by orbiay           ###   ########.fr       */
+/*   Updated: 2022/05/19 15:04:56 by orbiay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,29 +34,29 @@ void affiche(t_list *arguments)
 		if (arguments->type != 10)
 		{
 			if (arguments->type == INPUT)
-				printf("[INPUT] %s\n",arguments->data);
+				printf("[INPUT] %s      %d\n",arguments->data,arguments->dollar);
 			else if (arguments->type == OUTPUT)
-				printf("[OUTPUT] %s\n",arguments->data);
+				printf("[OUTPUT] %s      %d\n",arguments->data,arguments->dollar);
 			else if (arguments->type == HEREDOC)
-				printf("[HERDOC] %s\n",arguments->data);
+				printf("[HERDOC] %s      %d\n",arguments->data,arguments->dollar);
 			else if (arguments->type == CMD)
-				printf("[CMD] %s\n",arguments->data);
+				printf("[CMD] %s      %d\n",arguments->data,arguments->dollar);
 			else if (arguments->type == APPEND)
-				printf("[APPEND] %s\n",arguments->data);
+				printf("[APPEND] %s      %d\n",arguments->data,arguments->dollar);
 			else if (arguments->type == OPTION)
-				printf("[OPTION] %s\n",arguments->data);
+				printf("[OPTION] %s      %d\n",arguments->data,arguments->dollar);
 			else if (arguments->type == ARG)
-				printf("[ARG] %s\n",arguments->data);
+				printf("[ARG] %s      %d\n",arguments->data,arguments->dollar);
 			else if (arguments->type == D_QUOTE)
-				printf("[D_QUOTE] %s\n",arguments->data);
+				printf("[D_QUOTE] %s      %d\n",arguments->data,arguments->dollar);
 			else if (arguments->type == S_QUOTE)
-				printf("[S_QUOTE] %s\n",arguments->data);
+				printf("[S_QUOTE] %s      %d\n",arguments->data,arguments->dollar);
 			else if (arguments->type == DOLLAR_SIGN)
-				printf("[DOLLAR_SIGN] %s\n",arguments->data);
+				printf("[DOLLAR_SIGN] %s      %d\n",arguments->data,arguments->dollar);
 			else if (arguments->type == D_QUOTE_DOLLAR)
-				printf("[D_QUOTE_DOLLAR] %s\n",arguments->data);
+				printf("[D_QUOTE_DOLLAR] %s      %d\n",arguments->data,arguments->dollar);
 			else if (arguments->type == S_QUOTE_DOLLAR)
-				printf("[S_QUOTE_DOLLAR] %s\n",arguments->data);
+				printf("[S_QUOTE_DOLLAR] %s      %d\n",arguments->data,arguments->dollar);
 			
 		}
 		arguments = arguments->next;

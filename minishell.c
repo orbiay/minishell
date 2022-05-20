@@ -6,7 +6,7 @@
 /*   By: orbiay <orbiay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 21:38:03 by orbiay            #+#    #+#             */
-/*   Updated: 2022/05/19 15:04:56 by orbiay           ###   ########.fr       */
+/*   Updated: 2022/05/20 13:19:43 by orbiay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void read_add(char **av)
 		{
 			type_arg(argumets);
 			check_dollar(argumets);
-			affiche(argumets);
+			//affiche(argumets);
 		}
 		input = readline("Minishell$ ");
 	}

@@ -6,11 +6,11 @@
 /*   By: orbiay <orbiay@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 15:04:10 by orbiay            #+#    #+#             */
-/*   Updated: 2022/05/15 17:17:27 by orbiay           ###   ########.fr       */
+/*   Updated: 2022/07/02 19:50:17 by orbiay           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"minishell.h"
+#include "../minishell.h"
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
@@ -39,15 +39,53 @@ t_list	*ft_lstlast(t_list *lst)
 	return (lst);
 }
 
-t_list	*lstnew(char *data)
+t_list	*lstnew_two(char *data, int op, int dollar, int type_quote)
 {
 	t_list	*new;
 
 	new = malloc (sizeof(t_list));
 	if (new == NULL)
-		return(NULL);
-	new -> data = data;
+		return (NULL);
+	new -> data = ft_strdup(data);
+	new -> type = op;
+	new -> dollar = dollar;
+	new -> quote = type_quote;
 	new -> next = NULL;
 	new -> prev = NULL;
+	new -> write_in = 0;
+	free(data);
 	return (new);
+}
+
+t_list	*lstnew(char *data, int op, int dollar, int type_quote)
+{
+	t_list	*new;
+
+	new = malloc (sizeof(t_list));
+	if (new == NULL)
+		return (NULL);
+	new -> data = ft_strdup(data);
+	new -> type = op;
+	new -> dollar = dollar;
+	new -> quote = type_quote;
+	new -> next = NULL;
+	new -> prev = NULL;
+	new -> write_in = 0;
+	return (new);
+}
+
+int	lstsize(t_list *lst)
+{
+	int	i;
+
+	if (lst == 0)
+		return (0);
+	i = 0;
+	while (lst != '\0')
+	{
+		if (lst->type != ARG && lst->type != OPTION)
+			i++;
+		lst = lst -> next;
+	}
+	return (i);
 }
